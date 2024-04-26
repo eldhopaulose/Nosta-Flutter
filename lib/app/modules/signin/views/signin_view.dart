@@ -1,9 +1,11 @@
+import 'package:e_commerse/app/modules/home/views/home_view.dart';
 import 'package:e_commerse/app/modules/register/views/register_view.dart';
 import 'package:e_commerse/app/modules/widgets/button.dart';
 import 'package:e_commerse/app/modules/widgets/edit_text.dart';
 import 'package:e_commerse/app/modules/widgets/heading_text.dart';
 import 'package:e_commerse/app/modules/widgets/text_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 
@@ -33,6 +35,17 @@ class SigninView extends GetView<SigninController> {
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: 400,
+                  ),
+
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(HomeView());
+                      },
+                      child: Text("Skip",
+                          style: TextStyle(color: Colors.green, fontSize: 25)),
+                    ),
                   ),
 
                   Positioned(

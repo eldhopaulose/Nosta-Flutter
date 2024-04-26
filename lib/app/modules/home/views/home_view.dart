@@ -23,61 +23,85 @@ class HomeView extends GetView<HomeController> {
             padding: const EdgeInsets.all(18.0),
             child: Container(
               height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FutureBuilder(
-                          future: controller.getUserData(context),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            } else if (snapshot.hasError) {
-                              print("error");
-                              print(snapshot.error);
-
-                              return Container();
-                            } else if (snapshot.hasData) {
-                              return Text(
-                                "Hi ${snapshot.data?.user?.name ?? ""},",
-                                style: GoogleFonts.oldStandardTt(
-                                  fontSize: 25,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.left,
-                              );
-                            }
-                            return Container();
-                          }),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        "Let's get something...!",
-                        style: GoogleFonts.lobster(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 107, 113, 119),
+              child: FutureBuilder<bool>(
+                future: controller.hasToken(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    // Handle error
+                    return Container();
+                  } else if (snapshot.hasData && snapshot.data == true) {
+                    // Render the authenticated content
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FutureBuilder(
+                              future: controller.getUserData(context),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  print("error");
+                                  print(snapshot.error);
+                                  return Container();
+                                } else if (snapshot.hasData) {
+                                  return Text(
+                                    "Hi ${snapshot.data?.user?.name ?? ""},",
+                                    style: GoogleFonts.oldStandardTt(
+                                      fontSize: 25,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  );
+                                }
+                                return Container();
+                              },
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            Text(
+                              "Let's get something...!",
+                              style: GoogleFonts.lobster(
+                                fontSize: 15,
+                                color: Color.fromARGB(255, 107, 113, 119),
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.left,
+                        Text(
+                          'nosta',
+                          style: GoogleFonts.rubikVinyl(
+                            fontSize: 35,
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    // Render the non-authenticated content
+                    return Text(
+                      'nosta',
+                      style: GoogleFonts.rubikVinyl(
+                        fontSize: 35,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                  Text(
-                    'nosta',
-                    style: GoogleFonts.rubikVinyl(
-                      fontSize: 35,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+                    );
+                  }
+                },
               ),
             ),
           ),
@@ -329,14 +353,34 @@ class HomeView extends GetView<HomeController> {
                                     );
                                   } else if (snapshot.hasData) {
                                     final likedId = snapshot.data!.likes;
-                                    return ProductCard(
-                                      name: data.name.toString(),
-                                      price: data.price.toString(),
-                                      disprice: data.discount.toString(),
-                                      image: data.thumbnail.toString(),
-                                      onPressed: () async {},
-                                      productId: data.sId ?? '',
-                                      likedId: likedId as List,
+                                    return FutureBuilder<bool>(
+                                      future: controller.hasToken(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          // Return a loading indicator if the future hasn't completed yet
+                                          return CircularProgressIndicator();
+                                        } else if (snapshot.hasError) {
+                                          // Handle error
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        } else {
+                                          // Render the ProductCard based on the result of controller.hasToken()
+                                          return ProductCard(
+                                            name: data.name.toString(),
+                                            price: data.price.toString(),
+                                            disprice: data.discount.toString(),
+                                            image: data.thumbnail.toString(),
+                                            onPressed: () async {},
+                                            productId: snapshot.data == true
+                                                ? data.sId ?? ''
+                                                : '',
+                                            likedId: snapshot.data == true
+                                                ? likedId as List
+                                                : [],
+                                          );
+                                        }
+                                      },
                                     );
                                   } else {
                                     return Container();

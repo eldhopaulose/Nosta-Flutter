@@ -32,7 +32,7 @@ class CartView extends GetView<CartController> {
             stream: controller.fetchAllCart,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else if (snapshot.error != null) {
@@ -53,11 +53,12 @@ class CartView extends GetView<CartController> {
                   children: [
                     Expanded(
                         child: ListView.builder(
-                      itemCount: data!.first.items!.length,
+                      itemCount: data.first.items!.length,
                       itemBuilder: (context, index) {
                         print("Total Cost: ${controller.totalCost.value}");
                         print(data.first.items![index].totalCost);
                         final product = data.first.items![index].productId!;
+                        controller.Bookproduct.value = [data.first.sId!];
 
                         return Dismissible(
                           key: Key(
@@ -68,10 +69,10 @@ class CartView extends GetView<CartController> {
                                 .toString());
                           },
                           child: Container(
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                                 bottom: 10), // add some space below each item
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 240, 245,
+                              color: const Color.fromARGB(255, 240, 245,
                                   247), // light gray background color
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -94,8 +95,8 @@ class CartView extends GetView<CartController> {
                                       .toString(),
                                   width: 100),
                               trailing: Container(
-                                padding:
-                                    EdgeInsets.all(8.0), // Add some padding
+                                padding: const EdgeInsets.all(
+                                    8.0), // Add some padding
                                 decoration: BoxDecoration(
                                   color:
                                       Colors.white, // Set the color of the box
@@ -107,7 +108,7 @@ class CartView extends GetView<CartController> {
                                       color: Colors.grey.withOpacity(0.1),
                                       spreadRadius: 5,
                                       blurRadius: 7,
-                                      offset: Offset(0, 3),
+                                      offset: const Offset(0, 3),
                                     ),
                                   ],
                                 ),
@@ -115,7 +116,7 @@ class CartView extends GetView<CartController> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                        icon: Icon(Icons.remove,
+                                        icon: const Icon(Icons.remove,
                                             color: Colors.green, size: 15.0),
                                         onPressed: () {
                                           controller.onCLickDeecriment(
@@ -124,13 +125,13 @@ class CartView extends GetView<CartController> {
                                     Text(
                                       data.first.items![index].quantity
                                           .toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight
                                               .bold), // Increase the font size to 24 and make it bold
                                     ),
                                     IconButton(
-                                      icon: Icon(Icons.add,
+                                      icon: const Icon(Icons.add,
                                           color: Colors.green, size: 15.0),
                                       onPressed: () {
                                         controller.onCLickIncriment(
@@ -150,7 +151,7 @@ class CartView extends GetView<CartController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             'Total:',
                             style: TextStyle(
                                 color: Colors.white,
@@ -159,7 +160,7 @@ class CartView extends GetView<CartController> {
                           ),
                           Obx(() => Text(
                                 '₹ ${controller.totalCost.value}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 40, 167, 45),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
@@ -171,12 +172,13 @@ class CartView extends GetView<CartController> {
                     SizedBox(
                       width: 150,
                       child: FloatingActionButton(
-                        backgroundColor: Color.fromARGB(255, 192, 243, 194),
-                        child: Row(
+                        backgroundColor:
+                            const Color.fromARGB(255, 192, 243, 194),
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Proceed to Pay  ',
+                              'Proceed to Pay',
                               style: TextStyle(
                                 color: Colors
                                     .black, // Set the color of the text to black
@@ -191,7 +193,7 @@ class CartView extends GetView<CartController> {
                         },
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],

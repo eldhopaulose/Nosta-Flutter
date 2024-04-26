@@ -12,6 +12,7 @@ import 'package:e_commerse/app/networks/models/res/get_user_data_res.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   final FavoriteController favoriteController = Get.put(FavoriteController());
@@ -136,5 +137,15 @@ class HomeController extends GetxController {
     final response = await repo.getAllLikes();
 
     _fetchAllLiked.sink.add(response!);
+  }
+
+  Future<bool> hasToken() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    final token = sp.getString("token");
+    if (token != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -17,6 +17,8 @@ class CartController extends GetxController {
   RxDouble totalCost = 0.0.obs;
 
   RxList product = [].obs;
+  RxList Bookproduct = [].obs;
+
   Razorpay _razorpay = Razorpay();
 
   final StreamController<GetAllCartRes?> _fetchAllCart =
@@ -26,7 +28,7 @@ class CartController extends GetxController {
   @override
   void onInit() {
     getAllCart();
-    
+
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -117,7 +119,7 @@ class CartController extends GetxController {
 
     final response = await repo.orderPlaced(OrderPlacedReq(
         address: responseAddress!.address!.first.sId,
-        productId: product,
+        productId: Bookproduct,
         totalCost: totalCost.value.toInt()));
 
     if (response!.error == null) {
@@ -129,19 +131,19 @@ class CartController extends GetxController {
     }
   }
 
-    // final AuthRepo repo = AuthRepo();
-    // final response = await repo.getUserData();
+  // final AuthRepo repo = AuthRepo();
+  // final response = await repo.getUserData();
 
   buyNow() async {
-   final AuthRepo repo = AuthRepo();
+    final AuthRepo repo = AuthRepo();
     final response = await repo.getUserData();
-print(totalCost.value);
+    print(totalCost.value);
 
-int money = totalCost.value.toInt();
+    int money = totalCost.value.toInt();
 
-       var options = {
-      'key':  'rzp_test_L6O15RueQQYPaH', // Replace with your actual Razorpay key
-      'amount': money* 100, // Amount in paise (e.g., 100 paise = 1 INR)
+    var options = {
+      'key': 'rzp_test_L6O15RueQQYPaH', // Replace with your actual Razorpay key
+      'amount': money * 100, // Amount in paise (e.g., 100 paise = 1 INR)
       'name': 'Nosta',
       'description': 'Cart Payment',
       'prefill': {'email': response!.user!.email, 'name': response.user!.name},
@@ -151,24 +153,25 @@ int money = totalCost.value.toInt();
     };
 
     _razorpay.open(options);
-
- 
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
     print("Payment Successful: ${response.paymentId}");
-      Get.snackbar("Success", "Payment Successful");
-       onOrder();
+    Get.snackbar("Success", "Payment Successful");
+    onOrder();
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
+    Get.snackbar("Error", "Payment Failed");
     print("Payment Failed: ${response.code} - ${response.message}");
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
+
+    Get.snackbar("Success", "Payment Successful");
     print("External Wallet Selected: ${response.walletName}");
   }
 }

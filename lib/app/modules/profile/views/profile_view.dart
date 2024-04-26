@@ -1,3 +1,5 @@
+import 'package:e_commerse/app/modules/cart/controllers/cart_controller.dart';
+import 'package:e_commerse/app/modules/cart/views/cart_view.dart';
 import 'package:e_commerse/app/modules/favorite/views/favorite_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -75,7 +77,11 @@ class ProfileView extends GetView<ProfileController> {
               title: Text('My Cart',
                   style: GoogleFonts.istokWeb(
                       fontSize: 18, fontWeight: FontWeight.w800)),
-              onTap: () {}, // Implement navigation
+              onTap: () {
+                Get.to(() => CartView());
+                CartController cartController = Get.put(CartController());
+                cartController.getAllCart();
+              }, // Implement navigation
             ),
             ListTile(
               leading: Icon(Icons.favorite),
