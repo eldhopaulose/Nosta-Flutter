@@ -56,7 +56,8 @@ class RegisterView extends GetView<RegisterController> {
                           EditText(
                             text: 'Enter Full Name',
                             textInputType: TextInputType.emailAddress,
-                            textEditingController: controller.nameController,
+                            textEditingController:
+                                controller.registerNameController,
                           ),
                           // MobileNumberInput(
                           //   number: controller.number,
@@ -66,7 +67,8 @@ class RegisterView extends GetView<RegisterController> {
                           EditText(
                             text: 'Enter Email',
                             textInputType: TextInputType.emailAddress,
-                            textEditingController: controller.emailController,
+                            textEditingController:
+                                controller.registerEmailController,
                           ),
 
                           Button(

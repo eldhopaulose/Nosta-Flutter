@@ -35,6 +35,7 @@ class Products {
   List<String>? category;
   String? shippingCost;
   int? iV;
+  String? originalPrice;
 
   Products(
       {this.sId,
@@ -46,7 +47,8 @@ class Products {
       this.description,
       this.category,
       this.shippingCost,
-      this.iV});
+      this.iV,
+      this.originalPrice});
 
   Products.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -59,6 +61,7 @@ class Products {
     category = json['category'].cast<String>();
     shippingCost = json['shippingCost'];
     iV = json['__v'];
+    originalPrice = json['originalPrice'];
   }
 
   Map<String, dynamic> toJson() {
@@ -73,6 +76,7 @@ class Products {
     data['category'] = this.category;
     data['shippingCost'] = this.shippingCost;
     data['__v'] = this.iV;
+    data['originalPrice'] = this.originalPrice;
     return data;
   }
 }

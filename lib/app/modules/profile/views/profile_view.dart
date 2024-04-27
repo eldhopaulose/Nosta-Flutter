@@ -232,13 +232,13 @@ class ProfileView extends GetView<ProfileController> {
                             Text('Pincode: ${controller.pincode.value ?? ''}'),
                           ],
                         )),
-                    visible: true,
+                    visible: false,
                   );
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (snapshot.connectionState ==
                     ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Container();
                 } else {
                   return Text('No Adress added');
                 }

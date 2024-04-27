@@ -1,9 +1,11 @@
+import 'package:e_commerse/app/modules/data/colors.dart';
 import 'package:e_commerse/app/modules/detail/views/detail_view.dart';
 import 'package:e_commerse/app/modules/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../controllers/favorite_controller.dart';
 
@@ -32,8 +34,12 @@ class FavoriteView extends GetView<FavoriteController> {
         stream: controller.fetchCustomerProductLikede,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return Align(
+              alignment: Alignment.center,
+              child: LoadingAnimationWidget.beat(
+                color: AppColor.green,
+                size: 50,
+              ),
             );
           } else if (snapshot.hasError) {
             return Center(
@@ -76,7 +82,7 @@ class FavoriteView extends GetView<FavoriteController> {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Container(),
                                 );
                               } else if (snapshot.hasError) {
                                 return Center(
@@ -86,12 +92,14 @@ class FavoriteView extends GetView<FavoriteController> {
                                 final likedId = snapshot.data!.likes;
                                 return ProductCard(
                                   name: data.productId!.name.toString(),
-                                  price: data.productId!.price.toString(),
-                                  disprice: data.productId!.discount.toString(),
+                                  price:
+                                      data.productId!.originalPrice.toString(),
+                                  disprice: data.productId!.price.toString(),
                                   image: data.productId!.thumbnail.toString(),
                                   onPressed: () async {},
                                   productId: data.productId!.sId ?? '',
                                   likedId: likedId as List,
+                                  offer: data.productId!.discount.toString(),
                                 );
                               } else {
                                 return Container();

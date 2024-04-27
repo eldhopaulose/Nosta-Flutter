@@ -14,8 +14,8 @@ class RegisterController extends GetxController {
   // final TextEditingController numberController = TextEditingController();
   // String initialCountry = 'IN';
   // PhoneNumber number = PhoneNumber(isoCode: 'IN');
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController registerEmailController = TextEditingController();
+  final TextEditingController registerNameController = TextEditingController();
   bool isCircle = false;
   @override
   void onInit() {
@@ -30,9 +30,6 @@ class RegisterController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    // numberController.dispose();
-    emailController.dispose();
-    nameController.dispose();
   }
 
   void validation(BuildContext context, error) {
@@ -49,10 +46,10 @@ class RegisterController extends GetxController {
   }
 
   onRegisterClick(context) async {
-    final bool isValid = EmailValidator.validate(emailController.text);
+    final bool isValid = EmailValidator.validate(registerEmailController.text);
     if (!isValid ||
-        emailController.text.isEmpty ||
-        nameController.text.isEmpty) {
+        registerEmailController.text.isEmpty ||
+        registerNameController.text.isEmpty) {
       final error =
           "Please fill in all required fields, or provide valid entries.";
       validation(context, error);
@@ -60,11 +57,11 @@ class RegisterController extends GetxController {
       final AuthRepo repo = AuthRepo();
 
       final response = await repo.register(RegisterReq(
-        email: emailController.text,
-        name: nameController.text,
+        email: registerEmailController.text,
+        name: registerNameController.text,
       ));
       if (response != null && response.error == null) {
-        Get.to(OtpView(), arguments: emailController.text);
+        Get.to(OtpView(), arguments: registerEmailController.text);
       } else {
         final error = response?.error ?? "Something went wrong";
         validation(context, error);

@@ -5,6 +5,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../controllers/detail_controller.dart';
 
@@ -30,8 +31,10 @@ class DetailView extends GetView<DetailController> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
-            );
+                child: LoadingAnimationWidget.beat(
+              color: AppColor.green,
+              size: 50,
+            ));
           } else if (snapshot.hasError) {
             return Center(
               child: Text(snapshot.error.toString()),
@@ -95,7 +98,7 @@ class DetailView extends GetView<DetailController> {
                   Row(
                     children: [
                       Text(
-                        '₹${data.discount}',
+                        '₹${data.price}',
                         style: TextStyle(
                           fontSize: 22,
                           color: AppColor.green,
@@ -106,7 +109,7 @@ class DetailView extends GetView<DetailController> {
                         width: 10,
                       ),
                       Text(
-                        '₹${data.price}',
+                        '₹${data.originalPrice}',
                         style: TextStyle(
                           decoration: TextDecoration.lineThrough,
                           fontSize: 20,

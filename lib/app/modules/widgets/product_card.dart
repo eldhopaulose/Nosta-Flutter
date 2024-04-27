@@ -12,6 +12,7 @@ class ProductCard extends StatelessWidget {
   final String image;
   final String productId;
   final List likedId;
+  final String offer;
 
   final Function onPressed;
 
@@ -24,6 +25,7 @@ class ProductCard extends StatelessWidget {
     required this.onPressed,
     required this.productId,
     required this.likedId,
+    required this.offer,
   }) : super(key: key);
 
   @override
@@ -62,10 +64,12 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               top: 10,
               left: 10,
-              child: OfferCard(),
+              child: OfferCard(
+                offer: offer,
+              ),
             ),
             Positioned(
               top: 10,

@@ -99,12 +99,13 @@ class CartController extends GetxController {
     final CartRepo repo = CartRepo();
     final response = await repo.deleteCart(id);
     if (response!.error == null) {
-      getAllCart();
+      await getAllCart();
       update();
     } else {
       error(Get.context!, response.error, Colors.red, "Error", Icons.error,
           Colors.red);
       getAllCart();
+      update();
     }
   }
 

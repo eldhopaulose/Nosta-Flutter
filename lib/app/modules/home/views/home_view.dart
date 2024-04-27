@@ -1,3 +1,4 @@
+import 'package:e_commerse/app/modules/data/colors.dart';
 import 'package:e_commerse/app/modules/detail/views/detail_view.dart';
 import 'package:e_commerse/app/modules/widgets/categories.dart';
 import 'package:e_commerse/app/modules/widgets/product_card.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -46,8 +48,11 @@ class HomeView extends GetView<HomeController> {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
+                                  return Center(
+                                    child: Text(
+                                      "Loading...",
+                                      style: GoogleFonts.courgette(),
+                                    ),
                                   );
                                 } else if (snapshot.hasError) {
                                   print("error");
@@ -228,9 +233,9 @@ class HomeView extends GetView<HomeController> {
                         },
                       ),
                       Categories(
-                        categoryName: 'Gluten-Free',
+                        categoryName: 'Cotton Candy',
                         isSelected:
-                            controller.selectedCategory.value == 'Gluten-Free',
+                            controller.selectedCategory.value == 'Cotton Candy',
                         onPressed: (p0) {
                           print(p0);
                           controller.selectCategory(p0);
@@ -242,39 +247,48 @@ class HomeView extends GetView<HomeController> {
                         },
                       ),
                       Categories(
-                        categoryName: 'Pop Corn ',
-                        isSelected:
-                            controller.selectedCategory.value == 'Pop Corn ',
-                        onPressed: (p0) {
-                          controller.selectCategory(p0);
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
-                          });
-                        },
-                      ),
+                          categoryName: 'Popcorn',
+                          isSelected:
+                              controller.selectedCategory.value == 'Popcorn',
+                          onPressed: (p0) {
+                            print(p0);
+                            controller.selectCategory(p0);
+
+                            controller.getProducts(p0, context).then((_) {
+                              // Call getAllLiked after getProducts completes successfully
+                              controller.getAllLiked();
+                            });
+                          }),
                       Categories(
                         categoryName: 'Dry Fruits',
                         isSelected:
                             controller.selectedCategory.value == 'Dry Fruits',
                         onPressed: (p0) {
+                          print(p0);
                           controller.selectCategory(p0);
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
-                          });
+
+                          controller.getProducts(p0, context).then(
+                            (_) {
+                              // Call getAllLiked after getProducts completes successfully
+                              controller.getAllLiked();
+                            },
+                          );
                         },
                       ),
                       Categories(
-                        categoryName: 'Curry Powders',
+                        categoryName: 'Curry powders',
                         isSelected: controller.selectedCategory.value ==
-                            'Curry Powders',
+                            'Curry powders',
                         onPressed: (p0) {
+                          print(p0);
                           controller.selectCategory(p0);
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
-                          });
+
+                          controller.getProducts(p0, context).then(
+                            (_) {
+                              // Call getAllLiked after getProducts completes successfully
+                              controller.getAllLiked();
+                            },
+                          );
                         },
                       ),
                       Categories(
@@ -282,11 +296,15 @@ class HomeView extends GetView<HomeController> {
                         isSelected:
                             controller.selectedCategory.value == 'Spices',
                         onPressed: (p0) {
+                          print(p0);
                           controller.selectCategory(p0);
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
-                          });
+
+                          controller.getProducts(p0, context).then(
+                            (_) {
+                              // Call getAllLiked after getProducts completes successfully
+                              controller.getAllLiked();
+                            },
+                          );
                         },
                       ),
                       Categories(
@@ -294,11 +312,15 @@ class HomeView extends GetView<HomeController> {
                         isSelected: controller.selectedCategory.value ==
                             'Kerala Special',
                         onPressed: (p0) {
+                          print(p0);
                           controller.selectCategory(p0);
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
-                          });
+
+                          controller.getProducts(p0, context).then(
+                            (_) {
+                              // Call getAllLiked after getProducts completes successfully
+                              controller.getAllLiked();
+                            },
+                          );
                         },
                       ),
                     ],
@@ -310,7 +332,10 @@ class HomeView extends GetView<HomeController> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: LoadingAnimationWidget.beat(
+                    color: AppColor.green,
+                    size: 30,
+                  ),
                 );
               } else if (snapshot.hasError) {
                 return Center(
@@ -344,9 +369,7 @@ class HomeView extends GetView<HomeController> {
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
+                                    return Container();
                                   } else if (snapshot.hasError) {
                                     return Center(
                                       child: Text(snapshot.error.toString()),
@@ -359,7 +382,7 @@ class HomeView extends GetView<HomeController> {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           // Return a loading indicator if the future hasn't completed yet
-                                          return CircularProgressIndicator();
+                                          return Container();
                                         } else if (snapshot.hasError) {
                                           // Handle error
                                           return Text(
@@ -368,8 +391,9 @@ class HomeView extends GetView<HomeController> {
                                           // Render the ProductCard based on the result of controller.hasToken()
                                           return ProductCard(
                                             name: data.name.toString(),
-                                            price: data.price.toString(),
-                                            disprice: data.discount.toString(),
+                                            price:
+                                                data.originalPrice.toString(),
+                                            disprice: data.price.toString(),
                                             image: data.thumbnail.toString(),
                                             onPressed: () async {},
                                             productId: snapshot.data == true
@@ -378,6 +402,7 @@ class HomeView extends GetView<HomeController> {
                                             likedId: snapshot.data == true
                                                 ? likedId as List
                                                 : [],
+                                            offer: data.discount.toString(),
                                           );
                                         }
                                       },
