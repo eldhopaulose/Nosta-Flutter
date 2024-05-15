@@ -110,82 +110,82 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
-          Container(
-            height: 150, // Set the height of the container
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 247, 100, 2),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "30% OFF DURING \nRamadan",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: Image.asset(
-                              'assets/images/shopping.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "50% OFF DURING \nVishu",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: Image.asset(
-                              'assets/images/shopping.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   height: 150, // Set the height of the container
+          //   child: ListView(
+          //     scrollDirection: Axis.horizontal,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Container(
+          //           width: MediaQuery.of(context).size.width * 0.6,
+          //           padding: EdgeInsets.all(20),
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(10),
+          //             color: Color.fromARGB(255, 247, 100, 2),
+          //           ),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Text(
+          //                 "30% OFF DURING \nRamadan",
+          //                 style: TextStyle(
+          //                   fontSize: 16,
+          //                   color: Colors.white,
+          //                 ),
+          //                 textAlign: TextAlign.left,
+          //               ),
+          //               Expanded(
+          //                 child: Container(
+          //                   height: double.infinity,
+          //                   width: double.infinity,
+          //                   child: Image.asset(
+          //                     'assets/images/shopping.png',
+          //                     fit: BoxFit.cover,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: Container(
+          //           width: MediaQuery.of(context).size.width * 0.6,
+          //           padding: EdgeInsets.all(20),
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(10),
+          //             color: Colors.blue,
+          //           ),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Text(
+          //                 "50% OFF DURING \nVishu",
+          //                 style: TextStyle(
+          //                   fontSize: 16,
+          //                   color: Colors.white,
+          //                 ),
+          //                 textAlign: TextAlign.left,
+          //               ),
+          //               Expanded(
+          //                 child: Container(
+          //                   height: double.infinity,
+          //                   width: double.infinity,
+          //                   child: Image.asset(
+          //                     'assets/images/shopping.png',
+          //                     fit: BoxFit.cover,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(18.0),
             child: Row(
@@ -199,18 +199,18 @@ class HomeView extends GetView<HomeController> {
                     color: Colors.black,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    // Handle your onTap here.
-                  },
-                  child: Text(
-                    "See All",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green),
-                  ),
-                ),
+                // InkWell(
+                //   onTap: () {
+                //     // Handle your onTap here.
+                //   },
+                //   child: Text(
+                //     "See All",
+                //     style: TextStyle(
+                //         fontSize: 14,
+                //         fontWeight: FontWeight.bold,
+                //         color: Colors.green),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -388,22 +388,27 @@ class HomeView extends GetView<HomeController> {
                                           return Text(
                                               'Error: ${snapshot.error}');
                                         } else {
-                                          // Render the ProductCard based on the result of controller.hasToken()
-                                          return ProductCard(
-                                            name: data.name.toString(),
-                                            price:
-                                                data.originalPrice.toString(),
-                                            disprice: data.price.toString(),
-                                            image: data.thumbnail.toString(),
-                                            onPressed: () async {},
-                                            productId: snapshot.data == true
-                                                ? data.sId ?? ''
-                                                : '',
-                                            likedId: snapshot.data == true
-                                                ? likedId as List
-                                                : [],
-                                            offer: data.discount.toString(),
-                                          );
+                                          if (data.category == null) {
+                                            return Center(
+                                              child: Text('No Data'),
+                                            );
+                                          } else {
+                                            return ProductCard(
+                                              name: data.name.toString(),
+                                              price:
+                                                  data.originalPrice.toString(),
+                                              disprice: data.price.toString(),
+                                              image: data.thumbnail.toString(),
+                                              onPressed: () async {},
+                                              productId: snapshot.data == true
+                                                  ? data.sId ?? ''
+                                                  : '',
+                                              likedId: snapshot.data == true
+                                                  ? likedId as List
+                                                  : [],
+                                              offer: data.discount.toString(),
+                                            );
+                                          }
                                         }
                                       },
                                     );

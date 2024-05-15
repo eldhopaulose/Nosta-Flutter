@@ -1,4 +1,4 @@
-package com.example.nosta_flutter
+package dig.leafbazar.nosta_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

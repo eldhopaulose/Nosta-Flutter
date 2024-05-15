@@ -188,20 +188,20 @@ class ProfileView extends GetView<ProfileController> {
                 );
               }, // Implement navigation
             ),
-            ListTile(
-              leading: Icon(Icons.help),
-              title: Text('Help',
-                  style: GoogleFonts.istokWeb(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {}, // Implement navigation
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings',
-                  style: GoogleFonts.istokWeb(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              onTap: () {}, // Implement navigation
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.help),
+            //   title: Text('Help',
+            //       style: GoogleFonts.istokWeb(
+            //           fontSize: 18, fontWeight: FontWeight.bold)),
+            //   onTap: () {}, // Implement navigation
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.settings),
+            //   title: Text('Settings',
+            //       style: GoogleFonts.istokWeb(
+            //           fontSize: 18, fontWeight: FontWeight.bold)),
+            //   onTap: () {}, // Implement navigation
+            // ),
             StreamBuilder(
               stream: controller.fetchAdress,
               builder: (context, snapshot) {
