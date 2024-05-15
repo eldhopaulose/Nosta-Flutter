@@ -143,7 +143,7 @@ class CartController extends GetxController {
     int money = totalCost.value.toInt();
 
     var options = {
-      'key': 'rzp_test_L6O15RueQQYPaH', // Replace with your actual Razorpay key
+      'key': 'rzp_live_JTLiC4vKCBz6kZ', // Replace with your actual Razorpay key
       'amount': money * 100, // Amount in paise (e.g., 100 paise = 1 INR)
       'name': 'Nosta',
       'description': 'Cart Payment',

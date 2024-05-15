@@ -23,6 +23,7 @@ enum Endpoints {
   updateAddress,
   deleteAddress,
   orderPlaced,
+  getOffer,
 }
 
 extension EndpontData on Endpoints {
@@ -72,7 +73,9 @@ extension EndpontData on Endpoints {
       case Endpoints.deleteAddress:
         path = "adress";
       case Endpoints.orderPlaced:
-       path = "order";
+        path = "order";
+      case Endpoints.getOffer:
+        path = "offer";
     }
     return path;
   }
@@ -124,6 +127,8 @@ extension EndpontData on Endpoints {
         type = ReqType.DELETE;
       case Endpoints.orderPlaced:
         type = ReqType.POST;
+      case Endpoints.getOffer:
+        type = ReqType.GET;
     }
     return type;
   }
@@ -175,6 +180,8 @@ extension EndpontData on Endpoints {
         hasToken = true;
       case Endpoints.orderPlaced:
         hasToken = true;
+      case Endpoints.getOffer:
+        hasToken = false;
     }
     return hasToken;
   }

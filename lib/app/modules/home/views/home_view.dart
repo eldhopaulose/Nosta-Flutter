@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerse/app/modules/data/colors.dart';
 import 'package:e_commerse/app/modules/detail/views/detail_view.dart';
 import 'package:e_commerse/app/modules/widgets/categories.dart';
 import 'package:e_commerse/app/modules/widgets/product_card.dart';
+import 'package:e_commerse/app/networks/models/res/offer_res.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,6 +19,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController(), permanent: true);
+
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -186,6 +189,63 @@ class HomeView extends GetView<HomeController> {
           //     ],
           //   ),
           // ),
+
+          FutureBuilder<OfferRes?>(
+            future: controller.getOffers(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                    child: Text(
+                  "Loading...",
+                  style: GoogleFonts.courgette(
+                    fontSize: 25,
+                  ),
+                ));
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                );
+              } else if (snapshot.hasData) {
+                List<String> imgList = snapshot.data!.offers!.first.image ?? [];
+                final List<Widget> imageSliders = imgList
+                    .map((item) => Container(
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image.network(item,
+                                        fit: BoxFit.cover, width: 1000.0),
+                                  ],
+                                )),
+                          ),
+                        ))
+                    .toList();
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 2),
+                      aspectRatio: 2.0,
+                      enlargeCenterPage: true,
+                    ),
+                    items: imageSliders,
+                  ),
+                );
+              } else {
+                return Container();
+              }
+
+              return Center(
+                child: Text("No Data"),
+              );
+            },
+          ),
+
           Padding(
             padding: const EdgeInsets.all(18.0),
             child: Row(
