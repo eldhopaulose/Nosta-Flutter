@@ -67,11 +67,16 @@ class CartView extends GetView<CartController> {
                             itemCount: data.first.items!.length,
                             itemBuilder: (context, index) {
                               print(
-                                  "Total Cost: ${controller.totalCost.value}");
+                                  "Total Cost: ${controller.shippingCost.value}");
+
                               print(data.first.items![index].totalCost);
                               final product =
                                   data.first.items![index].productId!;
                               controller.Bookproduct.value = [data.first.sId!];
+                              controller.shippingCost.value =
+                                  controller.shippingCost.value +
+                                      double.parse(data.first.items![index]
+                                          .productId!.shippingCost!);
 
                               return Dismissible(
                                 key: Key(
@@ -166,24 +171,80 @@ class CartView extends GetView<CartController> {
                           )),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Column(
                               children: [
-                                const Text(
-                                  'Total:',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Total Product Cost:',
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    Obx(() => Text(
+                                          '₹ ${controller.totalSingle.value} ',
+                                          style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 40, 167, 45),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ],
                                 ),
-                                Obx(() => Text(
-                                      '₹ ${controller.totalCost.value}',
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 40, 167, 45),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    )),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Shipping:',
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    Obx(() => Text(
+                                          '₹ ${controller.totalShippingCost.value} ',
+                                          style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 40, 167, 45),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Total:',
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    Obx(() => Text(
+                                          '₹ ${controller.totalCost.value} ',
+                                          style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 40, 167, 45),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
+                                        )),
+                                  ],
+                                )
                               ],
                             ),
                           ),

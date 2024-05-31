@@ -7,6 +7,7 @@ import 'package:e_commerse/app/networks/dio/repo/order_repo.dart';
 import 'package:e_commerse/app/networks/models/req/add_cart_req.dart';
 import 'package:e_commerse/app/networks/models/req/order_placed_req.dart';
 import 'package:e_commerse/app/networks/models/req/update_cart_req.dart';
+import 'package:e_commerse/app/networks/models/res/address_res.dart';
 import 'package:e_commerse/app/networks/models/res/get_all_cart_res.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,13 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 class CartController extends GetxController {
   bool isCircle = false;
   RxDouble totalCost = 0.0.obs;
+  RxDouble shippingCost = 0.0.obs;
+  RxDouble totalShippingCost = 0.0.obs;
+
+  RxDouble total = 0.0.obs;
+  RxDouble shipTotal = 0.0.obs;
+
+  RxDouble totalSingle = 0.0.obs;
 
   RxList product = [].obs;
   RxList Bookproduct = [].obs;
@@ -66,6 +74,8 @@ class CartController extends GetxController {
     print(response);
     _fetchAllCart.sink.add(response!);
     updateTotalCost(response);
+    updateShipingCost(response);
+    updateTotalSingleCost(response);
   }
 
   onCLickIncriment(String id) async {
@@ -86,13 +96,46 @@ class CartController extends GetxController {
   }
 
   void updateTotalCost(GetAllCartRes response) {
-    double total = 0;
+    double tempTotal = 0;
+    double tempShipTotal = 30;
+
     response.carts?.forEach((cart) {
       cart.items?.forEach((item) {
-        total += item.totalCost ?? 0;
+        tempTotal += item.totalCost ?? 0;
       });
     });
-    totalCost.value = total;
+
+    // response.carts?.first.items?.forEach((element) {
+    //   tempShipTotal += double.parse(element.productId!.shippingCost!);
+    // });
+
+    total.value = tempTotal;
+    shipTotal.value = tempShipTotal;
+    totalCost.value = total.value + shipTotal.value;
+  }
+
+  void updateShipingCost(GetAllCartRes response) {
+    double tempShipTotal = 30;
+
+    // response.carts?.forEach((cart) {
+    //   cart.items?.forEach((item) {
+    //     tempShipTotal += double.parse(item.productId!.shippingCost!);
+    //   });
+    // });
+
+    totalShippingCost.value = tempShipTotal;
+  }
+
+  void updateTotalSingleCost(GetAllCartRes response) {
+    double tempTotal = 0;
+
+    response.carts?.forEach((cart) {
+      cart.items?.forEach((item) {
+        tempTotal += item.totalCost ?? 0;
+      });
+    });
+
+    totalSingle.value = tempTotal;
   }
 
   onDeleteCart(String id) async {
@@ -152,8 +195,19 @@ class CartController extends GetxController {
         'wallets': ['paytm'],
       }
     };
+    getAdress();
 
-    _razorpay.open(options);
+    final AddressRepo adressRepo = AddressRepo();
+    final addResponse = await adressRepo.getAllAddress();
+
+    if (addResponse!.address!.length == 0) {
+      Get.snackbar("Error", "Adress not added");
+      print("errrrrrrr");
+
+      Get.toNamed("/profile");
+    } else {
+      _razorpay.open(options);
+    }
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
@@ -174,5 +228,16 @@ class CartController extends GetxController {
 
     Get.snackbar("Success", "Payment Successful");
     print("External Wallet Selected: ${response.walletName}");
+  }
+
+  Future<AddressRes?> getAdress() async {
+    final AddressRepo repo = AddressRepo();
+    final response = await repo.getAllAddress();
+
+    if (response!.address!.single.address!.isNotEmpty) {
+      Get.snackbar("Succes", "Adress added");
+    } else {
+      Get.snackbar("Error", "Adress not added");
+    }
   }
 }

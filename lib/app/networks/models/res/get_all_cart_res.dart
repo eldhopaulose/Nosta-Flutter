@@ -117,7 +117,7 @@ class UserId {
 
 class Items {
   ProductId? productId;
-  double? totalCost; // Changed data type to double
+  int? totalCost;
   int? quantity;
   String? sId;
 
@@ -125,22 +125,21 @@ class Items {
 
   Items.fromJson(Map<String, dynamic> json) {
     productId = json['productId'] != null
-        ? ProductId.fromJson(json['productId'])
+        ? new ProductId.fromJson(json['productId'])
         : null;
-    // Convert totalCost to double
-    totalCost = json['totalCost']?.toDouble(); // Convert to double
+    totalCost = json['totalCost'];
     quantity = json['quantity'];
     sId = json['_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (productId != null) {
-      data['productId'] = productId!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.productId != null) {
+      data['productId'] = this.productId!.toJson();
     }
-    data['totalCost'] = totalCost; // No need to convert again
-    data['quantity'] = quantity;
-    data['_id'] = sId;
+    data['totalCost'] = this.totalCost;
+    data['quantity'] = this.quantity;
+    data['_id'] = this.sId;
     return data;
   }
 }
@@ -149,6 +148,7 @@ class ProductId {
   String? sId;
   String? name;
   String? price;
+  String? originalPrice;
   String? discount;
   String? thumbnail;
   List<String>? images;
@@ -161,6 +161,7 @@ class ProductId {
       {this.sId,
       this.name,
       this.price,
+      this.originalPrice,
       this.discount,
       this.thumbnail,
       this.images,
@@ -173,6 +174,7 @@ class ProductId {
     sId = json['_id'];
     name = json['name'];
     price = json['price'];
+    originalPrice = json['originalPrice'];
     discount = json['discount'];
     thumbnail = json['thumbnail'];
     images = json['images'].cast<String>();
@@ -187,6 +189,7 @@ class ProductId {
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['price'] = this.price;
+    data['originalPrice'] = this.originalPrice;
     data['discount'] = this.discount;
     data['thumbnail'] = this.thumbnail;
     data['images'] = this.images;

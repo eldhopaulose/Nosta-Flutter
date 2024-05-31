@@ -10,6 +10,7 @@ void main() {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     GetMaterialApp(
+      theme: ThemeData(primaryColor: Colors.white),
       title: "Application",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

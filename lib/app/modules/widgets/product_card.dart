@@ -31,9 +31,6 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.find<HomeController>();
-    print("likedId");
-    print("likedId");
-    print("likedId");
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -116,10 +113,10 @@ class ProductCard extends StatelessWidget {
                         Text(
                           name,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                          maxLines: 2,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                            fontSize: 12,
                             color: AppColor.darkBlue,
                           ),
                         ),
@@ -129,7 +126,7 @@ class ProductCard extends StatelessWidget {
                               disprice,
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
-                                fontSize: 16,
+                                fontSize: 15,
                                 color: AppColor.black,
                               ),
                             ),
@@ -139,7 +136,7 @@ class ProductCard extends StatelessWidget {
                               style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontWeight: FontWeight.w100,
-                                fontSize: 13,
+                                fontSize: 11,
                                 color: AppColor.darkBlue,
                               ),
                             ),
